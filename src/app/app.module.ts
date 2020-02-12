@@ -6,12 +6,19 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { MaterialModule } from "./material.module";
 
 import { AppComponent } from "./app.component";
-import { LayoutComponent } from './layout/layout.component';
-import { HeaderComponent } from './navigation/header/header.component';
-import { SidebarListComponent } from './navigation/sidebar-list/sidebar-list.component';
+import { LayoutComponent } from "./layout/layout.component";
+import { HeaderComponent } from "./navigation/header/header.component";
+import { SidebarListComponent } from "./navigation/sidebar-list/sidebar-list.component";
+import { CategoryListComponent } from "./category/category-list/category-list.component";
 
 @NgModule({
-  declarations: [AppComponent, LayoutComponent, HeaderComponent, SidebarListComponent],
+  declarations: [
+    AppComponent,
+    LayoutComponent,
+    HeaderComponent,
+    SidebarListComponent,
+    CategoryListComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
