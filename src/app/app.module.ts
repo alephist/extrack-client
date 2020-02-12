@@ -6,9 +6,12 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { MaterialModule } from "./material.module";
 
 import { AppComponent } from "./app.component";
+import { LayoutComponent } from './layout/layout.component';
+import { HeaderComponent } from './navigation/header/header.component';
+import { SidebarListComponent } from './navigation/sidebar-list/sidebar-list.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, LayoutComponent, HeaderComponent, SidebarListComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
