@@ -1,3 +1,13 @@
-<app-layout></app-layout>
-<app-header></app-header>
-<app-sidebar-list></app-sidebar-list>
+<app-layout>
+  <app-header (onToggleSidenav)="sidenav.toggle()"></app-header>
+
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav opened mode="side">
+      <app-sidebar-list></app-sidebar-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <p>Sample Content</p>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</app-layout>
