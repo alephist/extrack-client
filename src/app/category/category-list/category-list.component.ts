@@ -17,7 +17,17 @@ export class CategoryListComponent implements OnInit {
     { id: 8, name: "Travel" }
   ];
 
+  displayedColumns: string[] = ["name", "action"];
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  editCategory(id: number): void {
+    console.log(`Edit category with id ${id}`);
+  }
+
+  deleteCategory(id: number): void {
+    console.log(`Delete category with id ${id}`);
+  }
 }
