@@ -1,5 +1,15 @@
-<section fxLayoutAlign="center center">
-  <div fxFlex="100%" fxFlex.gt-xs="60%">
+<section
+  fxLayout="column wrap"
+  fxLayoutGap="15px"
+  ngStyle.gt-xs="width: 60%; margin: 0 auto;"
+>
+  <div fxFlexAlign="end">
+    <button mat-flat-button color="primary">
+      Add Category
+    </button>
+  </div>
+
+  <ng-template [ngIf]="data.length && isLoading === false">
     <table mat-table [dataSource]="data" class="mat-elevation-z8">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -9,10 +19,10 @@
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let category">
-          <button mat-icon-button (click)="editCategory(category.id)">
+          <button mat-icon-button>
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button (click)="deleteCategory(category.id)">
+          <button mat-icon-button>
             <mat-icon>delete</mat-icon>
           </button>
         </td>
@@ -21,5 +31,15 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-  </div>
+  </ng-template>
+
+  <ng-template [ngIf]="isLoading === true && !data.length">
+    <div fxLayout="row wrap" fxLayoutAlign="center center" fxFlexFill>
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
+
+  <ng-template [ngIf]="isLoading === false && !data.length">
+    <div>No categories found</div>
+  </ng-template>
 </section>
