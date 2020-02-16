@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
+import { MatDialog } from "@angular/material/dialog";
 
 import { Category } from "./../../_models/category.model";
 import { CategoryService } from "./../../_services/category.service";
+
+import { AddCategoryDialogComponent } from "../add-category-dialog/add-category-dialog.component";
 
 @Component({
   selector: "app-category-list",
@@ -10,23 +13,13 @@ import { CategoryService } from "./../../_services/category.service";
   styleUrls: ["./category-list.component.css"]
 })
 export class CategoryListComponent implements OnInit, OnDestroy {
-  // data = [
-  //   { id: 1, name: "Food" },
-  //   { id: 2, name: "Shopping" },
-  //   { id: 3, name: "Bills" },
-  //   { id: 4, name: "Entertainment" },
-  //   { id: 5, name: "Pets" },
-  //   { id: 6, name: "Education" },
-  //   { id: 7, name: "Rent" },
-  //   { id: 8, name: "Travel" }
-  // ];
   data: Category[] = [];
   isLoading: boolean;
   category$: Subscription;
 
   displayedColumns: string[] = ["name", "action"];
 
-  constructor(private category: CategoryService) {}
+  constructor(private category: CategoryService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.loadCategories();
@@ -36,7 +29,21 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     this.category$.unsubscribe();
   }
 
-  loadCategories() {
+  addCategory() {
+    const addCategoryDialogRef = this.dialog.open(AddCategoryDialogComponent);
+
+    addCategoryDialogRef.afterClosed().subscribe(
+      result => {
+        if (result) {
+          alert("Category has been added!");
+          this.loadCategories();
+        }
+      },
+      error => console.log(error)
+    );
+  }
+
+  private loadCategories() {
     this.isLoading = true;
 
     this.category$ = this.category.getCategories().subscribe(

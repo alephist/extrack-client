@@ -1,0 +1,34 @@
+<h1 mat-dialog-title>Add Category</h1>
+
+<ng-template [ngIf]="isLoading === false">
+  <div mat-dialog-content [formGroup]="catForm">
+    <mat-form-field>
+      <mat-label>Category</mat-label>
+      <input matInput type="text" formControlName="name" />
+      <mat-error *ngIf="hasError('name', 'required')"
+        >Category is required</mat-error
+      >
+      <mat-error *ngIf="hasError('name', 'minlength')"
+        >Category must be at least 5 characters</mat-error
+      >
+    </mat-form-field>
+  </div>
+</ng-template>
+
+<ng-template [ngIf]="isLoading === true">
+  <div fxLayout="row wrap" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>
+
+<div mat-dialog-actions>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!catForm.valid || isLoading === true"
+    (click)="save()"
+  >
+    Save
+  </button>
+  <button mat-raised-button (click)="close()">Cancel</button>
+</div>
