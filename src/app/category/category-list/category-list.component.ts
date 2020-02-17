@@ -6,6 +6,7 @@ import { Category } from "./../../_models/category.model";
 import { CategoryService } from "./../../_services/category.service";
 
 import { AddCategoryDialogComponent } from "../add-category-dialog/add-category-dialog.component";
+import { UpdateCategoryDialogComponent } from "../update-category-dialog/update-category-dialog.component";
 
 @Component({
   selector: "app-category-list",
@@ -36,6 +37,23 @@ export class CategoryListComponent implements OnInit, OnDestroy {
       result => {
         if (result) {
           alert("Category has been added!");
+          this.loadCategories();
+        }
+      },
+      error => console.log(error)
+    );
+  }
+
+  updateCategory(category: Category) {
+    const updateCategoryDialogRef = this.dialog.open(
+      UpdateCategoryDialogComponent,
+      { data: category }
+    );
+
+    updateCategoryDialogRef.afterClosed().subscribe(
+      result => {
+        if (result) {
+          alert("Category has been updated!");
           this.loadCategories();
         }
       },

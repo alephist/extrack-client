@@ -19,4 +19,10 @@ export class CategoryService {
   addCategory(name: string) {
     return this.http.post<Category>(this.categoryUrl, { name });
   }
+
+  updateCategory(category: Category) {
+    return this.http.put(`${this.categoryUrl}/${category.id}`, {
+      name: category.name
+    });
+  }
 }

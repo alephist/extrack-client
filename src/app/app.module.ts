@@ -13,6 +13,7 @@ import { HeaderComponent } from "./navigation/header/header.component";
 import { SidebarListComponent } from "./navigation/sidebar-list/sidebar-list.component";
 import { CategoryListComponent } from "./category/category-list/category-list.component";
 import { AddCategoryDialogComponent } from "./category/add-category-dialog/add-category-dialog.component";
+import { UpdateCategoryDialogComponent } from './category/update-category-dialog/update-category-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AddCategoryDialogComponent } from "./category/add-category-dialog/add-c
     HeaderComponent,
     SidebarListComponent,
     CategoryListComponent,
-    AddCategoryDialogComponent
+    AddCategoryDialogComponent,
+    UpdateCategoryDialogComponent
   ],
   imports: [
     BrowserModule,

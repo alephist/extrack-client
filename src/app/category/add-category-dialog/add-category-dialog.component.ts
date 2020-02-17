@@ -38,10 +38,12 @@ export class AddCategoryDialogComponent implements OnInit, OnDestroy {
       .subscribe(
         () => {
           this.isLoading = false;
+          this.catForm.reset();
           this.dialogRef.close(true);
         },
         error => {
           this.isLoading = false;
+          this.catForm.reset();
           this.close();
           console.log(error);
         }
