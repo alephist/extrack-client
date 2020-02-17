@@ -61,6 +61,18 @@ export class CategoryListComponent implements OnInit, OnDestroy {
     );
   }
 
+  deleteCategory(id: number) {
+    if (confirm("Are you sure you want to delete this?")) {
+      this.category$ = this.category.deleteCategory(id).subscribe(
+        () => {
+          alert("Category has been deleted!");
+          this.loadCategories();
+        },
+        error => console.log(error)
+      );
+    }
+  }
+
   private loadCategories() {
     this.isLoading = true;
 
