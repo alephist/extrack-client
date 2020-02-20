@@ -11,12 +11,14 @@ import { AppComponent } from "./app.component";
 import { LayoutComponent } from "./layout/layout.component";
 import { HeaderComponent } from "./navigation/header/header.component";
 import { SidebarListComponent } from "./navigation/sidebar-list/sidebar-list.component";
+
 import { CategoryListComponent } from "./category/category-list/category-list.component";
 import { AddCategoryDialogComponent } from "./category/add-category-dialog/add-category-dialog.component";
 import { UpdateCategoryDialogComponent } from "./category/update-category-dialog/update-category-dialog.component";
 
 import { TransactionListComponent } from "./transaction/transaction-list/transaction-list.component";
-import { AddTransactionDialogComponent } from './transaction/add-transaction-dialog/add-transaction-dialog.component';
+import { AddTransactionDialogComponent } from "./transaction/add-transaction-dialog/add-transaction-dialog.component";
+import { UpdateTransactionCatalogComponent } from "./transaction/update-transaction-catalog/update-transaction-catalog.component";
 
 @NgModule({
   declarations: [
@@ -28,7 +30,8 @@ import { AddTransactionDialogComponent } from './transaction/add-transaction-dia
     AddCategoryDialogComponent,
     UpdateCategoryDialogComponent,
     TransactionListComponent,
-    AddTransactionDialogComponent
+    AddTransactionDialogComponent,
+    UpdateTransactionCatalogComponent
   ],
   imports: [
     BrowserModule,

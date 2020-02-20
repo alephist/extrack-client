@@ -6,6 +6,7 @@ import { Transaction } from "./../../_models/transaction.model";
 import { TransactionService } from "./../../_services/transaction.service";
 
 import { AddTransactionDialogComponent } from "./../add-transaction-dialog/add-transaction-dialog.component";
+import { UpdateTransactionCatalogComponent } from "./../update-transaction-catalog/update-transaction-catalog.component";
 
 @Component({
   selector: "app-transaction-list",
@@ -47,6 +48,23 @@ export class TransactionListComponent implements OnInit, OnDestroy {
       result => {
         if (result) {
           alert("Transaction has been added!");
+          this.loadTransactions();
+        }
+      },
+      error => console.log(error)
+    );
+  }
+
+  updateTransaction(item: Transaction) {
+    const updateTransactionDialogRef = this.dialog.open(
+      UpdateTransactionCatalogComponent,
+      { data: item }
+    );
+
+    updateTransactionDialogRef.afterClosed().subscribe(
+      result => {
+        if (result) {
+          alert("Transaction has been updated!");
           this.loadTransactions();
         }
       },

@@ -36,7 +36,7 @@
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let transaction">
-          <button mat-icon-button>
+          <button mat-icon-button (click)="updateTransaction(transaction)">
             <mat-icon>edit</mat-icon>
           </button>
           <button mat-icon-button>

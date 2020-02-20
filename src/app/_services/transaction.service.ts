@@ -19,4 +19,13 @@ export class TransactionService {
   addTransaction(transaction: Transaction) {
     return this.http.post<Transaction>(this.transactionUrl, transaction);
   }
+
+  updateTransaction(transaction: Transaction) {
+    return this.http.put(`${this.transactionUrl}/${transaction.id}`, {
+      description: transaction.description,
+      date: transaction.date,
+      amount: transaction.amount,
+      categoryId: transaction.categoryId
+    });
+  }
 }

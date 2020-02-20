@@ -1,0 +1,82 @@
+<h1 mat-dialog-title>Update Transaction</h1>
+
+<div mat-dialog-content>
+  <ng-container *ngIf="categories.length && isLoading === false">
+    <div fxLayout="column wrap" [formGroup]="transactionForm">
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <input matInput type="text" formControlName="description" />
+        <mat-error *ngIf="hasError('description', 'required')"
+          >*Required</mat-error
+        >
+        <mat-error *ngIf="hasError('description', 'minlength')"
+          >*Must be at least 5 characters</mat-error
+        >
+      </mat-form-field>
+
+      <div fxLayout="row wrap" fxLayoutGap="10px">
+        <mat-form-field>
+          <mat-label>Category</mat-label>
+          <mat-select formControlName="categoryId">
+            <mat-option
+              *ngFor="let category of categories"
+              [value]="category.id"
+            >
+              {{ category.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="hasError('categoryId', 'required')"
+            >*Required</mat-error
+          >
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Date</mat-label>
+          <input matInput [matDatepicker]="datePicker" formControlName="date" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="datePicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #datePicker></mat-datepicker>
+          <mat-error *ngIf="hasError('date', 'required')">*Required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Amount</mat-label>
+          <input matInput type="number" formControlName="amount" />
+          <mat-error *ngIf="hasError('amount', 'required')"
+            >*Required</mat-error
+          >
+          <mat-error *ngIf="hasError('amount', 'min')"
+            >Must not be equal or less than 0</mat-error
+          >
+        </mat-form-field>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container
+    *ngIf="(!categories.length && isLoading === true) || isLoading === true"
+  >
+    <div fxLayout="row wrap" fxLayoutAlign="center center" fxFlexFill>
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!categories.length && isLoading === false">
+    <div>Error loading form</div>
+  </ng-container>
+</div>
+
+<div mat-dialog-actions>
+  <button
+    mat-raised-button
+    color="primary"
+    *ngIf="categories.length && isLoading === false"
+    [disabled]="!transactionForm.valid"
+    (click)="save()"
+  >
+    Save
+  </button>
+  <button mat-raised-button (click)="close()">Cancel</button>
+</div>
