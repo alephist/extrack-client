@@ -1,8 +1,11 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
+import { MatDialog } from "@angular/material/dialog";
 
 import { Transaction } from "./../../_models/transaction.model";
 import { TransactionService } from "./../../_services/transaction.service";
+
+import { AddTransactionDialogComponent } from "./../add-transaction-dialog/add-transaction-dialog.component";
 
 @Component({
   selector: "app-transaction-list",
@@ -22,7 +25,10 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     "action"
   ];
 
-  constructor(private transaction: TransactionService) {}
+  constructor(
+    private transaction: TransactionService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.loadTransactions();
@@ -30,6 +36,22 @@ export class TransactionListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.transaction$.unsubscribe();
+  }
+
+  addTransaction() {
+    const addTransactionDialogRef = this.dialog.open(
+      AddTransactionDialogComponent
+    );
+
+    addTransactionDialogRef.afterClosed().subscribe(
+      result => {
+        if (result) {
+          alert("Transaction has been added!");
+          this.loadTransactions();
+        }
+      },
+      error => console.log(error)
+    );
   }
 
   private loadTransactions() {

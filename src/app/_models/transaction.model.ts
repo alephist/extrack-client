@@ -1,7 +1,7 @@
 import { Category } from "./category.model";
 
 export interface Transaction {
-  id: number;
+  id?: number;
   description: string;
   date: Date;
   amount: number;

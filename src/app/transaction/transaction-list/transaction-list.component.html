@@ -1,6 +1,8 @@
 <section fxLayout="column wrap" fxLayoutGap="15px">
   <div fxFlexAlign="end">
-    <button mat-flat-button color="primary">Add Transaction</button>
+    <button mat-flat-button color="primary" (click)="addTransaction()">
+      Add Transaction
+    </button>
   </div>
 
   <ng-template [ngIf]="data.length && isLoading === false">

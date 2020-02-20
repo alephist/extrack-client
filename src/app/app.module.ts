@@ -16,6 +16,7 @@ import { AddCategoryDialogComponent } from "./category/add-category-dialog/add-c
 import { UpdateCategoryDialogComponent } from "./category/update-category-dialog/update-category-dialog.component";
 
 import { TransactionListComponent } from "./transaction/transaction-list/transaction-list.component";
+import { AddTransactionDialogComponent } from './transaction/add-transaction-dialog/add-transaction-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { TransactionListComponent } from "./transaction/transaction-list/transac
     CategoryListComponent,
     AddCategoryDialogComponent,
     UpdateCategoryDialogComponent,
-    TransactionListComponent
+    TransactionListComponent,
+    AddTransactionDialogComponent
   ],
   imports: [
     BrowserModule,
