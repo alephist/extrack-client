@@ -28,4 +28,8 @@ export class TransactionService {
       categoryId: transaction.categoryId
     });
   }
+
+  deleteTransaction(id: number) {
+    return this.http.delete(`${this.transactionUrl}/${id}`);
+  }
 }

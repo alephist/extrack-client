@@ -72,6 +72,18 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     );
   }
 
+  deleteTransaction(id: number) {
+    if (confirm("Are you sure you want to delete this?")) {
+      this.transaction$ = this.transaction.deleteTransaction(id).subscribe(
+        () => {
+          alert("Transaction has been deleted!");
+          this.loadTransactions();
+        },
+        error => console.log(error)
+      );
+    }
+  }
+
   private loadTransactions() {
     this.isLoading = true;
 
