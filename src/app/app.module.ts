@@ -9,6 +9,8 @@ import { MaterialModule } from "./material.module";
 
 import { AppComponent } from "./app.component";
 import { LayoutComponent } from "./layout/layout.component";
+import { DashboardComponent } from "./dashboard/dashboard.component";
+
 import { HeaderComponent } from "./navigation/header/header.component";
 import { SidebarListComponent } from "./navigation/sidebar-list/sidebar-list.component";
 
@@ -31,7 +33,8 @@ import { UpdateTransactionCatalogComponent } from "./transaction/update-transact
     UpdateCategoryDialogComponent,
     TransactionListComponent,
     AddTransactionDialogComponent,
-    UpdateTransactionCatalogComponent
+    UpdateTransactionCatalogComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
