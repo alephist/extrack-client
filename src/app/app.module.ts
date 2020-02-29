@@ -4,15 +4,18 @@ import { HttpClientModule } from "@angular/common/http";
 import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { NgxChartsModule } from "@swimlane/ngx-charts";
 
 import { MaterialModule } from "./material.module";
 
 import { AppComponent } from "./app.component";
 import { LayoutComponent } from "./layout/layout.component";
-import { DashboardComponent } from "./dashboard/dashboard.component";
 
 import { HeaderComponent } from "./navigation/header/header.component";
 import { SidebarListComponent } from "./navigation/sidebar-list/sidebar-list.component";
+
+import { DashboardComponent } from "./dashboard/dashboard.component";
+import { PieChartComponent } from "./dashboard/pie-chart/pie-chart.component";
 
 import { CategoryListComponent } from "./category/category-list/category-list.component";
 import { AddCategoryDialogComponent } from "./category/add-category-dialog/add-category-dialog.component";
@@ -34,7 +37,8 @@ import { UpdateTransactionCatalogComponent } from "./transaction/update-transact
     TransactionListComponent,
     AddTransactionDialogComponent,
     UpdateTransactionCatalogComponent,
-    DashboardComponent
+    DashboardComponent,
+    PieChartComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +46,8 @@ import { UpdateTransactionCatalogComponent } from "./transaction/update-transact
     ReactiveFormsModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
-    MaterialModule
+    MaterialModule,
+    NgxChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
