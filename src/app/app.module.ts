@@ -7,6 +7,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 
 import { MaterialModule } from "./material.module";
+import { AppRouterModule } from "./app-router.module";
 
 import { AppComponent } from "./app.component";
 import { LayoutComponent } from "./layout/layout.component";
@@ -47,7 +48,8 @@ import { UpdateTransactionCatalogComponent } from "./transaction/update-transact
     BrowserAnimationsModule,
     FlexLayoutModule,
     MaterialModule,
-    NgxChartsModule
+    NgxChartsModule,
+    AppRouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]
