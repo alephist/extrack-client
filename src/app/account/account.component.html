@@ -1,1 +1,11 @@
-<p>account works!</p>
+<mat-sidenav-container>
+  <mat-sidenav [opened]="isOpen$ | async" mode="side">
+    <app-sidebar-list></app-sidebar-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

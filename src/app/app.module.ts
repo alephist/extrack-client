@@ -26,6 +26,12 @@ import { TransactionListComponent } from "./transaction/transaction-list/transac
 import { AddTransactionDialogComponent } from "./transaction/add-transaction-dialog/add-transaction-dialog.component";
 import { UpdateTransactionCatalogComponent } from "./transaction/update-transaction-catalog/update-transaction-catalog.component";
 
+import { HomeComponent } from "./home/home.component";
+import { LoginFormComponent } from "./home/login-form/login-form.component";
+import { RegisterFormComponent } from "./home/register-form/register-form.component";
+
+import { AccountComponent } from "./account/account.component";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +45,11 @@ import { UpdateTransactionCatalogComponent } from "./transaction/update-transact
     AddTransactionDialogComponent,
     UpdateTransactionCatalogComponent,
     DashboardComponent,
-    PieChartComponent
+    PieChartComponent,
+    HomeComponent,
+    LoginFormComponent,
+    RegisterFormComponent,
+    AccountComponent
   ],
   imports: [
     BrowserModule,
