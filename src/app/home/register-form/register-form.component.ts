@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Subscription } from "rxjs";
+import { Router } from "@angular/router";
 
 import { AuthService } from "./../../_services/auth.service";
 
@@ -9,26 +9,32 @@ import { AuthService } from "./../../_services/auth.service";
   templateUrl: "./register-form.component.html",
   styleUrls: ["./register-form.component.css"]
 })
-export class RegisterFormComponent implements OnInit, OnDestroy {
+export class RegisterFormComponent implements OnInit {
   registerForm: FormGroup;
-  private registerSub: Subscription;
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadRegisterForm();
   }
 
-  ngOnDestroy(): void {
-    this.registerSub.unsubscribe();
-  }
-
   registerUser() {
-    this.registerSub = this.auth.register(this.registerForm.value).subscribe(
+    this.auth.register(this.registerForm.value).subscribe(
       () => console.log("Registration successful!"),
       error => console.log(error),
-      () => this.registerForm.reset()
+      () => {
+        this.registerForm.reset();
+        this.goToLoginPage();
+      }
     );
+  }
+
+  goToLoginPage() {
+    this.router.navigate(["/"]);
   }
 
   hasError(controlName: string, errorName: string): boolean {

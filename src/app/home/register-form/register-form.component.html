@@ -1,5 +1,5 @@
 <div fxLayout="row wrap" fxLayoutAlign="center" style="height: 100%;">
-  <div fxFlexAlign="center" class="card-wrapper">
+  <div fxFlexAlign="center" class="register-wrapper">
     <mat-card>
       <mat-card-title>Register</mat-card-title>
 
@@ -43,7 +43,12 @@
           fxLayout="row wrap"
           fxLayoutAlign="space-between center"
         >
-          <button mat-stroked-button type="button" color="primary">
+          <button
+            mat-stroked-button
+            type="button"
+            color="primary"
+            (click)="goToLoginPage()"
+          >
             Sign In
           </button>
 

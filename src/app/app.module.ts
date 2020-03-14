@@ -5,7 +5,9 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
+import { JwtModule } from "@auth0/angular-jwt";
 
+import { environment } from "src/environments/environment";
 import { MaterialModule } from "./material.module";
 import { AppRouterModule } from "./app-router.module";
 
@@ -31,6 +33,10 @@ import { LoginFormComponent } from "./home/login-form/login-form.component";
 import { RegisterFormComponent } from "./home/register-form/register-form.component";
 
 import { AccountComponent } from "./account/account.component";
+
+export function tokenGetter() {
+  return localStorage.getItem("token");
+}
 
 @NgModule({
   declarations: [
@@ -59,7 +65,14 @@ import { AccountComponent } from "./account/account.component";
     FlexLayoutModule,
     MaterialModule,
     NgxChartsModule,
-    AppRouterModule
+    AppRouterModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: [`${environment.baseUrl}`],
+        blacklistedRoutes: [`${environment.baseUrl}/api/auth`]
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
