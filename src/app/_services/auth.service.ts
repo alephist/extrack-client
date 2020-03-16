@@ -20,10 +20,14 @@ interface DecodedToken {
 })
 export class AuthService {
   private authUrl: string = `${environment.baseUrl}/api/auth`;
-  private user = new BehaviorSubject<User>(null);
-  currentUser = this.user.asObservable();
+  private userSubject = new BehaviorSubject<User>(null);
+  user = this.userSubject.asObservable();
 
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {}
+
+  public get currentUser(): User {
+    return this.userSubject.value;
+  }
 
   register({ username, email, password }: User) {
     return this.http.post(`${this.authUrl}/register`, {
@@ -46,13 +50,19 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem("token");
-    this.user.next(null);
+    this.userSubject.next(null);
   }
 
-  private handleToken(token: string) {
+  isLoggedIn(): boolean {
+    const token: string = localStorage.getItem("token");
+
+    return token && !this.jwtHelper.isTokenExpired(token);
+  }
+
+  handleToken(token: string) {
     let { nameid, unique_name }: DecodedToken = this.jwtHelper.decodeToken(
       token
     );
-    this.user.next({ id: nameid, username: unique_name });
+    this.userSubject.next({ id: nameid, username: unique_name });
   }
 }

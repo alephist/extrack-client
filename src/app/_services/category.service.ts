@@ -3,30 +3,47 @@ import { HttpClient } from "@angular/common/http";
 
 import { environment } from "src/environments/environment";
 import { Category } from "../_models/category.model";
+import { AuthService } from "./auth.service";
 
 @Injectable({
   providedIn: "root"
 })
 export class CategoryService {
-  private categoryUrl: string = `${environment.baseUrl}/api/categories`;
-
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
   getCategories() {
-    return this.http.get<Category[]>(this.categoryUrl);
+    return this.http.get<Category[]>(
+      this.createCategoryRoute(this.auth.currentUser.id)
+    );
   }
 
   addCategory(name: string) {
-    return this.http.post<Category>(this.categoryUrl, { name });
+    return this.http.post<Category>(
+      this.createCategoryRoute(this.auth.currentUser.id),
+      { name }
+    );
   }
 
   updateCategory(category: Category) {
-    return this.http.put(`${this.categoryUrl}/${category.id}`, {
-      name: category.name
-    });
+    return this.http.put(
+      this.createCategoryRoute(this.auth.currentUser.id, category.id),
+      {
+        name: category.name
+      }
+    );
   }
 
   deleteCategory(id: number) {
-    return this.http.delete(`${this.categoryUrl}/${id}`);
+    return this.http.delete(
+      this.createCategoryRoute(this.auth.currentUser.id, id)
+    );
+  }
+
+  private createCategoryRoute(userId: number, id?: number): string {
+    if (id) {
+      return `${environment.baseUrl}/api/users/${userId}/categories/${id}`;
+    }
+
+    return `${environment.baseUrl}/api/users/${userId}/categories`;
   }
 }

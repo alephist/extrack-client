@@ -10,6 +10,8 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { TransactionListComponent } from "./transaction/transaction-list/transaction-list.component";
 import { CategoryListComponent } from "./category/category-list/category-list.component";
 
+import { AuthGuard } from "./_guards/auth.guard";
+
 const routes: Routes = [
   {
     path: "",
@@ -22,6 +24,7 @@ const routes: Routes = [
   {
     path: "account",
     component: AccountComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: "", component: DashboardComponent },
       { path: "categories", component: CategoryListComponent },

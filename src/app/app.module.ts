@@ -7,7 +7,6 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { JwtModule } from "@auth0/angular-jwt";
 
-import { environment } from "src/environments/environment";
 import { MaterialModule } from "./material.module";
 import { AppRouterModule } from "./app-router.module";
 
@@ -69,8 +68,8 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: [`${environment.baseUrl}`],
-        blacklistedRoutes: [`${environment.baseUrl}/api/auth`]
+        whitelistedDomains: ["localhost:5001"],
+        blacklistedRoutes: ["localhost:5001/api/auth"]
       }
     })
   ],

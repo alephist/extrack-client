@@ -26,6 +26,7 @@ export class LoginFormComponent implements OnInit {
     this.auth.login(this.loginForm.value).subscribe(
       () => {
         console.log("Login Successful!");
+        this.router.navigate(["/account"]);
       },
       error => console.log(error),
       () => this.loginForm.reset()
