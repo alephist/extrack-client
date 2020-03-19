@@ -1,11 +1,9 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Observable, Subscription, forkJoin } from "rxjs";
-import { take } from "rxjs/operators";
+import { Subscription } from "rxjs";
 
 import { ChartData } from "./../_models/chartData.model";
 import { Transaction } from "../_models/transaction.model";
 import { StatisticsService } from "./../_services/statistics.service";
-import { TransactionService } from "./../_services/transaction.service";
 
 @Component({
   selector: "app-dashboard",
@@ -17,24 +15,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
   recentTransactions: Transaction[] = [];
   displayedColumns: string[] = ["description", "category", "date", "amount"];
   private isLoading: boolean;
-  private data$: Observable<ChartData[]>;
-  private transaction$: Observable<Transaction[]>;
   private dashboardSub: Subscription;
 
-  constructor(
-    private statistics: StatisticsService,
-    private transaction: TransactionService
-  ) {}
+  constructor(private statistics: StatisticsService) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.data$ = this.statistics.getStatisticsByCategory();
-    this.transaction$ = this.transaction.getTransactions().pipe(take(5));
 
-    this.dashboardSub = forkJoin(this.data$, this.transaction$).subscribe(
+    this.dashboardSub = this.statistics.getStatisticsByCategory().subscribe(
       res => {
-        this.data = res[0];
-        this.recentTransactions = res[1];
+        this.data = res.chartData;
+        this.recentTransactions = res.recentTransactions;
         console.log(res);
       },
       error => {
