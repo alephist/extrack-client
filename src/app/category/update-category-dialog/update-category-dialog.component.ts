@@ -5,6 +5,7 @@ import { Subscription } from "rxjs";
 
 import { Category } from "./../../_models/category.model";
 import { CategoryService } from "./../../_services/category.service";
+import { SnackbarService } from "./../../_services/snackbar.service";
 
 @Component({
   selector: "app-update-category-dialog",
@@ -15,12 +16,13 @@ export class UpdateCategoryDialogComponent implements OnInit, OnDestroy {
   catItem: Category;
   isLoading: boolean;
   catForm: FormGroup;
-  category$: Subscription;
+  private categorySub: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialogRef<UpdateCategoryDialogComponent>,
     private category: CategoryService,
+    private snackbar: SnackbarService,
     @Inject(MAT_DIALOG_DATA) private data: Category
   ) {}
 
@@ -31,13 +33,13 @@ export class UpdateCategoryDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.category$.unsubscribe();
+    this.categorySub.unsubscribe();
   }
 
   save() {
     this.isLoading = true;
 
-    this.category$ = this.category
+    this.categorySub = this.category
       .updateCategory({ id: this.catItem.id, name: this.catForm.value.name })
       .subscribe(
         () => {
@@ -45,11 +47,11 @@ export class UpdateCategoryDialogComponent implements OnInit, OnDestroy {
           this.catForm.reset();
           this.dialog.close(true);
         },
-        error => {
+        () => {
           this.isLoading = false;
+          this.snackbar.error("Problem updating category");
           this.catForm.reset();
           this.close();
-          console.log(error);
         }
       );
   }

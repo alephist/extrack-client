@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 
 import { AuthService } from "./../../_services/auth.service";
+import { SnackbarService } from "./../../_services/snackbar.service";
 
 @Component({
   selector: "app-register-form",
@@ -15,6 +16,7 @@ export class RegisterFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
+    private snackbar: SnackbarService,
     private router: Router
   ) {}
 
@@ -24,8 +26,8 @@ export class RegisterFormComponent implements OnInit {
 
   registerUser() {
     this.auth.register(this.registerForm.value).subscribe(
-      () => console.log("Registration successful!"),
-      error => console.log(error),
+      () => this.snackbar.success("Registration successful!"),
+      error => this.snackbar.error(error),
       () => {
         this.registerForm.reset();
         this.goToLoginPage();

@@ -6,6 +6,7 @@ import { Subscription } from "rxjs";
 import { Category } from "./../../_models/category.model";
 import { CategoryService } from "./../../_services/category.service";
 import { TransactionService } from "./../../_services/transaction.service";
+import { SnackbarService } from "./../../_services/snackbar.service";
 
 @Component({
   selector: "app-add-transaction-dialog",
@@ -16,14 +17,15 @@ export class AddTransactionDialogComponent implements OnInit, OnDestroy {
   transactionForm: FormGroup;
   categories: Category[] = [];
   isLoading: boolean;
-  private category$: Subscription;
-  private transaction$: Subscription;
+  private categorySub: Subscription;
+  private transactionSub: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AddTransactionDialogComponent>,
     private category: CategoryService,
-    private transaction: TransactionService
+    private transaction: TransactionService,
+    private snackbar: SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -33,8 +35,8 @@ export class AddTransactionDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.category$.unsubscribe();
-    this.transaction$.unsubscribe();
+    this.categorySub.unsubscribe();
+    this.transactionSub.unsubscribe();
   }
 
   save() {
@@ -42,12 +44,12 @@ export class AddTransactionDialogComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
 
-    this.transaction$ = this.transaction
+    this.transactionSub = this.transaction
       .addTransaction({ description, date, amount, categoryId })
       .subscribe(
         () => this.transactionForm.reset(),
-        error => {
-          console.log(error);
+        () => {
+          this.snackbar.error("Problem adding transaction");
           this.isLoading = false;
           this.close();
         },
@@ -76,11 +78,12 @@ export class AddTransactionDialogComponent implements OnInit, OnDestroy {
   }
 
   private loadCategories() {
-    this.category$ = this.category.getCategories().subscribe(
+    this.categorySub = this.category.getCategories().subscribe(
       res => (this.categories = res),
-      error => {
-        console.log(error);
+      () => {
+        this.snackbar.error("Error loading form");
         this.isLoading = false;
+        this.close();
       },
       () => (this.isLoading = false)
     );

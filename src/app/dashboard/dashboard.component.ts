@@ -26,7 +26,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       res => {
         this.data = res.chartData;
         this.recentTransactions = res.recentTransactions;
-        console.log(res);
       },
       error => {
         console.log(error);

@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Add Transaction</h1>
 
-<div mat-dialog-content>
-  <ng-container *ngIf="categories.length && isLoading === false">
+<ng-container *ngIf="categories.length && isLoading === false">
+  <div mat-dialog-content>
     <div fxLayout="column wrap" [formGroup]="transactionForm">
       <mat-form-field>
         <mat-label>Description</mat-label>
@@ -53,30 +53,31 @@
         </mat-form-field>
       </div>
     </div>
-  </ng-container>
+  </div>
 
-  <ng-container
-    *ngIf="(!categories.length && isLoading === true) || isLoading === true"
+  <div mat-dialog-actions>
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="categories.length && isLoading === false"
+      [disabled]="!transactionForm.valid"
+      (click)="save()"
+    >
+      Save
+    </button>
+    <button mat-raised-button (click)="close()">Cancel</button>
+  </div>
+</ng-container>
+
+<ng-container
+  *ngIf="(!categories.length && isLoading === true) || isLoading === true"
+>
+  <div
+    mat-dialog-content
+    fxLayout="row wrap"
+    fxLayoutAlign="center center"
+    fxFlexFill
   >
-    <div fxLayout="row wrap" fxLayoutAlign="center center" fxFlexFill>
-      <mat-spinner></mat-spinner>
-    </div>
-  </ng-container>
-
-  <ng-container *ngIf="!categories.length && isLoading === false">
-    <div>Error loading form</div>
-  </ng-container>
-</div>
-
-<div mat-dialog-actions>
-  <button
-    mat-raised-button
-    color="primary"
-    *ngIf="categories.length && isLoading === false"
-    [disabled]="!transactionForm.valid"
-    (click)="save()"
-  >
-    Save
-  </button>
-  <button mat-raised-button (click)="close()">Cancel</button>
-</div>
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-container>

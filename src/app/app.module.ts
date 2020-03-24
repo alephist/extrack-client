@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { JwtModule } from "@auth0/angular-jwt";
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from "@angular/material/snack-bar";
 
 import { MaterialModule } from "./material.module";
 import { AppRouterModule } from "./app-router.module";
@@ -73,7 +74,16 @@ export function tokenGetter() {
       }
     })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {
+        duration: 2500,
+        verticalPosition: "top",
+        horizontalPosition: "center"
+      }
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

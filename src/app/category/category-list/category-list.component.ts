@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
+import { switchMap } from "rxjs/operators";
 import { MatDialog } from "@angular/material/dialog";
 
 import { Category } from "./../../_models/category.model";
 import { CategoryService } from "./../../_services/category.service";
+import { SnackbarService } from "./../../_services/snackbar.service";
 
 import { AddCategoryDialogComponent } from "../add-category-dialog/add-category-dialog.component";
 import { UpdateCategoryDialogComponent } from "../update-category-dialog/update-category-dialog.component";
@@ -16,32 +18,33 @@ import { UpdateCategoryDialogComponent } from "../update-category-dialog/update-
 export class CategoryListComponent implements OnInit, OnDestroy {
   data: Category[] = [];
   isLoading: boolean;
-  category$: Subscription;
+  private categorySub: Subscription;
 
   displayedColumns: string[] = ["name", "action"];
 
-  constructor(private category: CategoryService, private dialog: MatDialog) {}
+  constructor(
+    private category: CategoryService,
+    private snackbar: SnackbarService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.loadCategories();
   }
 
   ngOnDestroy(): void {
-    this.category$.unsubscribe();
+    this.categorySub.unsubscribe();
   }
 
   addCategory() {
     const addCategoryDialogRef = this.dialog.open(AddCategoryDialogComponent);
 
-    addCategoryDialogRef.afterClosed().subscribe(
-      result => {
-        if (result) {
-          alert("Category has been added!");
-          this.loadCategories();
-        }
-      },
-      error => console.log(error)
-    );
+    addCategoryDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.snackbar.success("Category has been added!");
+        this.loadCategories();
+      }
+    });
   }
 
   updateCategory(category: Category) {
@@ -50,39 +53,37 @@ export class CategoryListComponent implements OnInit, OnDestroy {
       { data: category }
     );
 
-    updateCategoryDialogRef.afterClosed().subscribe(
-      result => {
-        if (result) {
-          alert("Category has been updated!");
-          this.loadCategories();
-        }
-      },
-      error => console.log(error)
-    );
+    updateCategoryDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.snackbar.success("Category has been updated!");
+        this.loadCategories();
+      }
+    });
   }
 
   deleteCategory(id: number) {
-    if (confirm("Are you sure you want to delete this?")) {
-      this.category$ = this.category.deleteCategory(id).subscribe(
+    this.categorySub = this.snackbar
+      .confirm("Delete this category?", "Delete")
+      .pipe(switchMap(() => this.category.deleteCategory(id)))
+      .subscribe(
         () => {
-          alert("Category has been deleted!");
+          this.snackbar.success("Category has been deleted!");
           this.loadCategories();
         },
-        error => console.log(error)
+        () => this.snackbar.error("Problem in removing category")
       );
-    }
   }
 
   private loadCategories() {
     this.isLoading = true;
 
-    this.category$ = this.category.getCategories().subscribe(
+    this.categorySub = this.category.getCategories().subscribe(
       res => {
         this.data = res;
         this.isLoading = false;
       },
-      error => {
-        console.log(error);
+      () => {
+        this.snackbar.error("Problem fetching categories");
         this.isLoading = false;
       }
     );

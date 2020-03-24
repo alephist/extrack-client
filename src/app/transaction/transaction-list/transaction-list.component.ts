@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
+import { switchMap } from "rxjs/operators";
 import { MatDialog } from "@angular/material/dialog";
 
 import { Transaction } from "./../../_models/transaction.model";
 import { TransactionService } from "./../../_services/transaction.service";
+import { SnackbarService } from "./../../_services/snackbar.service";
 
 import { AddTransactionDialogComponent } from "./../add-transaction-dialog/add-transaction-dialog.component";
 import { UpdateTransactionCatalogComponent } from "./../update-transaction-catalog/update-transaction-catalog.component";
@@ -16,7 +18,7 @@ import { UpdateTransactionCatalogComponent } from "./../update-transaction-catal
 export class TransactionListComponent implements OnInit, OnDestroy {
   data: Transaction[] = [];
   isLoading: boolean;
-  private transaction$: Subscription;
+  private transactionSub: Subscription;
 
   displayedColumns: string[] = [
     "description",
@@ -28,6 +30,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
 
   constructor(
     private transaction: TransactionService,
+    private snackbar: SnackbarService,
     private dialog: MatDialog
   ) {}
 
@@ -36,7 +39,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.transaction$.unsubscribe();
+    this.transactionSub.unsubscribe();
   }
 
   addTransaction() {
@@ -44,15 +47,12 @@ export class TransactionListComponent implements OnInit, OnDestroy {
       AddTransactionDialogComponent
     );
 
-    addTransactionDialogRef.afterClosed().subscribe(
-      result => {
-        if (result) {
-          alert("Transaction has been added!");
-          this.loadTransactions();
-        }
-      },
-      error => console.log(error)
-    );
+    addTransactionDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.snackbar.success("Transaction has been added!");
+        this.loadTransactions();
+      }
+    });
   }
 
   updateTransaction(item: Transaction) {
@@ -61,39 +61,37 @@ export class TransactionListComponent implements OnInit, OnDestroy {
       { data: item }
     );
 
-    updateTransactionDialogRef.afterClosed().subscribe(
-      result => {
-        if (result) {
-          alert("Transaction has been updated!");
-          this.loadTransactions();
-        }
-      },
-      error => console.log(error)
-    );
+    updateTransactionDialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.snackbar.success("Transaction has been updated!");
+        this.loadTransactions();
+      }
+    });
   }
 
   deleteTransaction(id: number) {
-    if (confirm("Are you sure you want to delete this?")) {
-      this.transaction$ = this.transaction.deleteTransaction(id).subscribe(
+    this.transactionSub = this.snackbar
+      .confirm("Delete this transaction?", "Delete")
+      .pipe(switchMap(() => this.transaction.deleteTransaction(id)))
+      .subscribe(
         () => {
-          alert("Transaction has been deleted!");
+          this.snackbar.success("Transaction has been deleted");
           this.loadTransactions();
         },
-        error => console.log(error)
+        () => this.snackbar.error("Problem in removing transaction")
       );
-    }
   }
 
   private loadTransactions() {
     this.isLoading = true;
 
-    this.transaction$ = this.transaction.getTransactions().subscribe(
+    this.transactionSub = this.transaction.getTransactions().subscribe(
       res => {
         this.data = res;
         this.isLoading = false;
       },
-      error => {
-        console.log(error);
+      () => {
+        this.snackbar.error("Problem fetching transactions");
         this.isLoading = false;
       }
     );

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 
 import { AuthService } from "./../../_services/auth.service";
+import { SnackbarService } from "./../../_services/snackbar.service";
 
 @Component({
   selector: "app-login-form",
@@ -15,6 +16,7 @@ export class LoginFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
+    private snackbar: SnackbarService,
     private router: Router
   ) {}
 
@@ -25,10 +27,10 @@ export class LoginFormComponent implements OnInit {
   loginUser() {
     this.auth.login(this.loginForm.value).subscribe(
       () => {
-        console.log("Login Successful!");
+        this.snackbar.success("Login Successful!");
         this.router.navigate(["/account"]);
       },
-      error => console.log(error),
+      error => this.snackbar.error(error),
       () => this.loginForm.reset()
     );
   }

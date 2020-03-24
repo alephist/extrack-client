@@ -4,6 +4,7 @@ import { MatDialogRef } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 
 import { CategoryService } from "./../../_services/category.service";
+import { SnackbarService } from "./../../_services/snackbar.service";
 
 @Component({
   selector: "app-add-category-dialog",
@@ -13,12 +14,13 @@ import { CategoryService } from "./../../_services/category.service";
 export class AddCategoryDialogComponent implements OnInit, OnDestroy {
   catForm: FormGroup;
   isLoading: boolean;
-  category$: Subscription;
+  private categorySub: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AddCategoryDialogComponent>,
-    private category: CategoryService
+    private category: CategoryService,
+    private snackbar: SnackbarService
   ) {}
 
   ngOnInit(): void {
@@ -27,13 +29,13 @@ export class AddCategoryDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.category$.unsubscribe();
+    this.categorySub.unsubscribe();
   }
 
   save() {
     this.isLoading = true;
 
-    this.category$ = this.category
+    this.categorySub = this.category
       .addCategory(this.catForm.value.name)
       .subscribe(
         () => {
@@ -41,11 +43,11 @@ export class AddCategoryDialogComponent implements OnInit, OnDestroy {
           this.catForm.reset();
           this.dialogRef.close(true);
         },
-        error => {
+        () => {
           this.isLoading = false;
+          this.snackbar.error("Problem adding category");
           this.catForm.reset();
           this.close();
-          console.log(error);
         }
       );
   }

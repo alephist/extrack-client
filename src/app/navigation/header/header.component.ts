@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 
 import { SidenavService } from "./../../_services/sidenav.service";
 import { AuthService } from "./../../_services/auth.service";
+import { SnackbarService } from "./../../_services/snackbar.service";
 import { User } from "src/app/_models/user.model";
 
 @Component({
@@ -18,6 +19,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private sidenav: SidenavService,
     private auth: AuthService,
+    private snackbar: SnackbarService,
     private router: Router
   ) {}
 
@@ -27,7 +29,7 @@ export class HeaderComponent implements OnInit {
 
   logoutUser() {
     this.auth.logout();
-    console.log("User has logged out!");
+    this.snackbar.info("User has logged out");
     this.router.navigate(["/"]);
   }
 

@@ -4,9 +4,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 
 import { Category } from "./../../_models/category.model";
+import { Transaction } from "./../../_models/transaction.model";
 import { CategoryService } from "./../../_services/category.service";
 import { TransactionService } from "./../../_services/transaction.service";
-import { Transaction } from "./../../_models/transaction.model";
+import { SnackbarService } from "./../../_services/snackbar.service";
 
 @Component({
   selector: "app-update-transaction-catalog",
@@ -18,14 +19,15 @@ export class UpdateTransactionCatalogComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
   isLoading: boolean;
   private transactionItem: Transaction;
-  private category$: Subscription;
-  private transaction$: Subscription;
+  private categorySub: Subscription;
+  private transactionSub: Subscription;
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<UpdateTransactionCatalogComponent>,
     private category: CategoryService,
     private transaction: TransactionService,
+    private snackbar: SnackbarService,
     @Inject(MAT_DIALOG_DATA) private data: Transaction
   ) {}
 
@@ -37,8 +39,8 @@ export class UpdateTransactionCatalogComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.category$.unsubscribe();
-    this.transaction$.unsubscribe();
+    this.categorySub.unsubscribe();
+    this.transactionSub.unsubscribe();
   }
 
   save() {
@@ -46,7 +48,7 @@ export class UpdateTransactionCatalogComponent implements OnInit, OnDestroy {
 
     this.isLoading = true;
 
-    this.transaction$ = this.transaction
+    this.transactionSub = this.transaction
       .updateTransaction({
         id: this.transactionItem.id,
         description,
@@ -56,8 +58,8 @@ export class UpdateTransactionCatalogComponent implements OnInit, OnDestroy {
       })
       .subscribe(
         () => this.transactionForm.reset(),
-        error => {
-          console.log(error);
+        () => {
+          this.snackbar.error("Transaction has not been updated");
           this.isLoading = false;
           this.close();
         },
@@ -90,11 +92,12 @@ export class UpdateTransactionCatalogComponent implements OnInit, OnDestroy {
   }
 
   private loadCategories() {
-    this.category$ = this.category.getCategories().subscribe(
+    this.categorySub = this.category.getCategories().subscribe(
       res => (this.categories = res),
-      error => {
-        console.log(error);
+      () => {
+        this.snackbar.error("Error loading form");
         this.isLoading = false;
+        this.close();
       },
       () => (this.isLoading = false)
     );

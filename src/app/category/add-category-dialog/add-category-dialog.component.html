@@ -13,6 +13,18 @@
       >
     </mat-form-field>
   </div>
+
+  <div mat-dialog-actions>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!catForm.valid"
+      (click)="save()"
+    >
+      Save
+    </button>
+    <button mat-raised-button (click)="close()">Cancel</button>
+  </div>
 </ng-template>
 
 <ng-template [ngIf]="isLoading === true">
@@ -20,15 +32,3 @@
     <mat-spinner></mat-spinner>
   </div>
 </ng-template>
-
-<div mat-dialog-actions>
-  <button
-    mat-raised-button
-    color="primary"
-    [disabled]="!catForm.valid || isLoading === true"
-    (click)="save()"
-  >
-    Save
-  </button>
-  <button mat-raised-button (click)="close()">Cancel</button>
-</div>
