@@ -30,7 +30,10 @@ export class LoginFormComponent implements OnInit {
         this.snackbar.success("Login Successful!");
         this.router.navigate(["/account"]);
       },
-      error => this.snackbar.error(error),
+      error => {
+        this.snackbar.error(error);
+        console.log(error);
+      },
       () => this.loginForm.reset()
     );
   }

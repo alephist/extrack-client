@@ -47,9 +47,9 @@ export class UpdateCategoryDialogComponent implements OnInit, OnDestroy {
           this.catForm.reset();
           this.dialog.close(true);
         },
-        () => {
+        error => {
           this.isLoading = false;
-          this.snackbar.error("Problem updating category");
+          this.snackbar.error(error);
           this.catForm.reset();
           this.close();
         }
@@ -66,7 +66,7 @@ export class UpdateCategoryDialogComponent implements OnInit, OnDestroy {
 
   private loadForm() {
     this.catForm = this.fb.group({
-      name: [this.catItem.name, [Validators.required, Validators.minLength(5)]]
+      name: [this.catItem.name, [Validators.required, Validators.minLength(4)]]
     });
   }
 }

@@ -48,8 +48,8 @@ export class AddTransactionDialogComponent implements OnInit, OnDestroy {
       .addTransaction({ description, date, amount, categoryId })
       .subscribe(
         () => this.transactionForm.reset(),
-        () => {
-          this.snackbar.error("Problem adding transaction");
+        error => {
+          this.snackbar.error(error);
           this.isLoading = false;
           this.close();
         },

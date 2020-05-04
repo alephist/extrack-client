@@ -58,8 +58,8 @@ export class UpdateTransactionCatalogComponent implements OnInit, OnDestroy {
       })
       .subscribe(
         () => this.transactionForm.reset(),
-        () => {
-          this.snackbar.error("Transaction has not been updated");
+        error => {
+          this.snackbar.error(error);
           this.isLoading = false;
           this.close();
         },

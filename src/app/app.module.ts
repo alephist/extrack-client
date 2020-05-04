@@ -1,6 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -33,6 +33,8 @@ import { LoginFormComponent } from "./home/login-form/login-form.component";
 import { RegisterFormComponent } from "./home/register-form/register-form.component";
 
 import { AccountComponent } from "./account/account.component";
+
+import { ErrorInterceptor } from "./error.interceptor";
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -69,8 +71,8 @@ export function tokenGetter() {
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        whitelistedDomains: ["localhost:5001"],
-        blacklistedRoutes: ["localhost:5001/api/auth"]
+        whitelistedDomains: ["localhost:5000"],
+        blacklistedRoutes: ["localhost:5000/api/auth"]
       }
     })
   ],
@@ -82,7 +84,8 @@ export function tokenGetter() {
         verticalPosition: "top",
         horizontalPosition: "center"
       }
-    }
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

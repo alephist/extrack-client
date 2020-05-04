@@ -43,9 +43,9 @@ export class AddCategoryDialogComponent implements OnInit, OnDestroy {
           this.catForm.reset();
           this.dialogRef.close(true);
         },
-        () => {
+        error => {
           this.isLoading = false;
-          this.snackbar.error("Problem adding category");
+          this.snackbar.error(error);
           this.catForm.reset();
           this.close();
         }
@@ -58,7 +58,7 @@ export class AddCategoryDialogComponent implements OnInit, OnDestroy {
 
   loadForm(): void {
     this.catForm = this.fb.group({
-      name: ["", [Validators.required, Validators.minLength(5)]]
+      name: ["", [Validators.required, Validators.minLength(4)]]
     });
   }
 

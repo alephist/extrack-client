@@ -78,7 +78,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
           this.snackbar.success("Transaction has been deleted");
           this.loadTransactions();
         },
-        () => this.snackbar.error("Problem in removing transaction")
+        error => this.snackbar.error(error)
       );
   }
 
@@ -90,8 +90,8 @@ export class TransactionListComponent implements OnInit, OnDestroy {
         this.data = res;
         this.isLoading = false;
       },
-      () => {
-        this.snackbar.error("Problem fetching transactions");
+      error => {
+        this.snackbar.error(error);
         this.isLoading = false;
       }
     );

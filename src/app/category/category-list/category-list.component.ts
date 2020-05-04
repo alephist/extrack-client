@@ -70,7 +70,7 @@ export class CategoryListComponent implements OnInit, OnDestroy {
           this.snackbar.success("Category has been deleted!");
           this.loadCategories();
         },
-        () => this.snackbar.error("Problem in removing category")
+        error => this.snackbar.error(error)
       );
   }
 
@@ -82,8 +82,8 @@ export class CategoryListComponent implements OnInit, OnDestroy {
         this.data = res;
         this.isLoading = false;
       },
-      () => {
-        this.snackbar.error("Problem fetching categories");
+      error => {
+        this.snackbar.error(error);
         this.isLoading = false;
       }
     );
