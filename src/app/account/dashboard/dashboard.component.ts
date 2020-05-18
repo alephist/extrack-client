@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { ChartData } from "./../_models/chartData.model";
-import { Transaction } from "../_models/transaction.model";
-import { StatisticsService } from "./../_services/statistics.service";
+import { ChartData } from "../../_models/chartData.model";
+import { Transaction } from "../../_models/transaction.model";
+import { StatisticsService } from "../../_services/statistics.service";
 
 @Component({
   selector: "app-dashboard",

@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 
-import { CategoryService } from "./../../_services/category.service";
-import { SnackbarService } from "./../../_services/snackbar.service";
+import { CategoryService } from "../../../_services/category.service";
+import { SnackbarService } from "../../../_services/snackbar.service";
 
 @Component({
   selector: "app-add-category-dialog",

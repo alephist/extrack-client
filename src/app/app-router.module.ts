@@ -1,35 +1,18 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
-import { HomeComponent } from "./home/home.component";
-import { LoginFormComponent } from "./home/login-form/login-form.component";
-import { RegisterFormComponent } from "./home/register-form/register-form.component";
-
-import { AccountComponent } from "./account/account.component";
-import { DashboardComponent } from "./dashboard/dashboard.component";
-import { TransactionListComponent } from "./transaction/transaction-list/transaction-list.component";
-import { CategoryListComponent } from "./category/category-list/category-list.component";
-
 import { AuthGuard } from "./_guards/auth.guard";
 
 const routes: Routes = [
   {
     path: "",
-    component: HomeComponent,
-    children: [
-      { path: "", component: LoginFormComponent },
-      { path: "register", component: RegisterFormComponent }
-    ]
+    loadChildren: () => import("./home/home.module").then(m => m.HomeModule)
   },
   {
     path: "account",
-    component: AccountComponent,
     canActivate: [AuthGuard],
-    children: [
-      { path: "", component: DashboardComponent },
-      { path: "categories", component: CategoryListComponent },
-      { path: "transactions", component: TransactionListComponent }
-    ]
+    loadChildren: () =>
+      import("./account/account.module").then(m => m.AccountModule)
   }
 ];
 

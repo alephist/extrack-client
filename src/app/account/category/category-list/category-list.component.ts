@@ -3,9 +3,9 @@ import { Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
 import { MatDialog } from "@angular/material/dialog";
 
-import { Category } from "./../../_models/category.model";
-import { CategoryService } from "./../../_services/category.service";
-import { SnackbarService } from "./../../_services/snackbar.service";
+import { Category } from "../../../_models/category.model";
+import { CategoryService } from "../../../_services/category.service";
+import { SnackbarService } from "../../../_services/snackbar.service";
 
 import { AddCategoryDialogComponent } from "../add-category-dialog/add-category-dialog.component";
 import { UpdateCategoryDialogComponent } from "../update-category-dialog/update-category-dialog.component";

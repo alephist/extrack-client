@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 
-import { Category } from "./../../_models/category.model";
-import { CategoryService } from "./../../_services/category.service";
-import { SnackbarService } from "./../../_services/snackbar.service";
+import { Category } from "../../../_models/category.model";
+import { CategoryService } from "../../../_services/category.service";
+import { SnackbarService } from "../../../_services/snackbar.service";
 
 @Component({
   selector: "app-update-category-dialog",

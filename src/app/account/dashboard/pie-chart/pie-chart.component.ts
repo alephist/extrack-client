@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 
-import { ChartData } from "./../../_models/chartData.model";
+import { ChartData } from "../../../_models/chartData.model";
 
 @Component({
   selector: "app-pie-chart",

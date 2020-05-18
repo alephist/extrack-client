@@ -3,12 +3,12 @@ import { Subscription } from "rxjs";
 import { switchMap } from "rxjs/operators";
 import { MatDialog } from "@angular/material/dialog";
 
-import { Transaction } from "./../../_models/transaction.model";
-import { TransactionService } from "./../../_services/transaction.service";
-import { SnackbarService } from "./../../_services/snackbar.service";
+import { Transaction } from "../../../_models/transaction.model";
+import { TransactionService } from "../../../_services/transaction.service";
+import { SnackbarService } from "../../../_services/snackbar.service";
 
-import { AddTransactionDialogComponent } from "./../add-transaction-dialog/add-transaction-dialog.component";
-import { UpdateTransactionCatalogComponent } from "./../update-transaction-catalog/update-transaction-catalog.component";
+import { AddTransactionDialogComponent } from "../add-transaction-dialog/add-transaction-dialog.component";
+import { UpdateTransactionCatalogComponent } from "../update-transaction-catalog/update-transaction-catalog.component";
 
 @Component({
   selector: "app-transaction-list",

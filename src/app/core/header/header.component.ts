@@ -2,9 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 
-import { SidenavService } from "./../../_services/sidenav.service";
-import { AuthService } from "./../../_services/auth.service";
-import { SnackbarService } from "./../../_services/snackbar.service";
+import { SidenavService } from "../../_services/sidenav.service";
+import { AuthService } from "../../_services/auth.service";
+import { SnackbarService } from "../../_services/snackbar.service";
 import { User } from "src/app/_models/user.model";
 
 @Component({

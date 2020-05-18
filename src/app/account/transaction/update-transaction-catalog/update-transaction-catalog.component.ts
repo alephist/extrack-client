@@ -1,34 +1,38 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, Inject } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { MatDialogRef } from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { Subscription } from "rxjs";
 
-import { Category } from "./../../_models/category.model";
-import { CategoryService } from "./../../_services/category.service";
-import { TransactionService } from "./../../_services/transaction.service";
-import { SnackbarService } from "./../../_services/snackbar.service";
+import { Category } from "../../../_models/category.model";
+import { Transaction } from "../../../_models/transaction.model";
+import { CategoryService } from "../../../_services/category.service";
+import { TransactionService } from "../../../_services/transaction.service";
+import { SnackbarService } from "../../../_services/snackbar.service";
 
 @Component({
-  selector: "app-add-transaction-dialog",
-  templateUrl: "./add-transaction-dialog.component.html",
-  styleUrls: ["./add-transaction-dialog.component.css"]
+  selector: "app-update-transaction-catalog",
+  templateUrl: "./update-transaction-catalog.component.html",
+  styleUrls: ["./update-transaction-catalog.component.css"]
 })
-export class AddTransactionDialogComponent implements OnInit, OnDestroy {
+export class UpdateTransactionCatalogComponent implements OnInit, OnDestroy {
   transactionForm: FormGroup;
   categories: Category[] = [];
   isLoading: boolean;
+  private transactionItem: Transaction;
   private categorySub: Subscription;
   private transactionSub: Subscription;
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<AddTransactionDialogComponent>,
+    private dialogRef: MatDialogRef<UpdateTransactionCatalogComponent>,
     private category: CategoryService,
     private transaction: TransactionService,
-    private snackbar: SnackbarService
+    private snackbar: SnackbarService,
+    @Inject(MAT_DIALOG_DATA) private data: Transaction
   ) {}
 
   ngOnInit(): void {
+    this.transactionItem = this.data;
     this.isLoading = true;
     this.loadForm();
     this.loadCategories();
@@ -45,7 +49,13 @@ export class AddTransactionDialogComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
     this.transactionSub = this.transaction
-      .addTransaction({ description, date, amount, categoryId })
+      .updateTransaction({
+        id: this.transactionItem.id,
+        description,
+        categoryId,
+        date,
+        amount
+      })
       .subscribe(
         () => this.transactionForm.reset(),
         error => {
@@ -69,11 +79,15 @@ export class AddTransactionDialogComponent implements OnInit, OnDestroy {
   }
 
   private loadForm() {
+    let { description, category, date, amount } = this.transactionItem;
     this.transactionForm = this.fb.group({
-      description: ["", [Validators.required, Validators.minLength(5)]],
-      categoryId: [null, Validators.required],
-      date: [new Date(), Validators.required],
-      amount: [0, [Validators.required, Validators.min(1)]]
+      description: [
+        description,
+        [Validators.required, Validators.minLength(5)]
+      ],
+      categoryId: [category.id, Validators.required],
+      date: [date, Validators.required],
+      amount: [amount, [Validators.required, Validators.min(1)]]
     });
   }
 
